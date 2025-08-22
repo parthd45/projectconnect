@@ -1,0 +1,58 @@
+# Digital Ocean App Platform Configuration
+name: projectconnect
+services:
+- name: backend
+  source_dir: /server
+  github:
+    repo: your-github-username/your-repo-name
+    branch: main
+  run_command: npm start
+  environment_slug: node-js
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  envs:
+  - key: NODE_ENV
+    value: production
+  - key: DATABASE_URL
+    value: postgresql://postgres:duPZzXJcGyiEUcHdAXatjDdNcpLMLXFq@ballast.proxy.rlwy.net:29786/railway
+  - key: JWT_SECRET
+    value: ProjectConnect_Super_Secure_Production_JWT_Secret_Key_2025_Make_It_Very_Long_Random
+  - key: EMAIL_USER
+    value: your_email_here@gmail.com
+  - key: EMAIL_PASSWORD
+    value: your_email_app_password_here
+  - key: GOOGLE_CLIENT_ID
+    value: your_google_client_id_here
+  - key: GOOGLE_CLIENT_SECRET
+    value: your_google_client_secret_here
+  - key: GITHUB_CLIENT_ID
+    value: your_github_client_id_here
+  - key: GITHUB_CLIENT_SECRET
+    value: your_github_client_secret_here
+  - key: SESSION_SECRET
+    value: your_session_secret_here_at_least_32_characters_long
+  - key: CLIENT_URL
+    value: ${frontend.PUBLIC_URL}
+  routes:
+  - path: /api
+  health_check:
+    http_path: /api/health
+
+- name: frontend
+  source_dir: /client
+  github:
+    repo: your-github-username/your-repo-name
+    branch: main
+  build_command: npm run build
+  environment_slug: node-js
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  envs:
+  - key: REACT_APP_API_URL
+    value: ${backend.PUBLIC_URL}/api
+  routes:
+  - path: /
+  static_sites:
+  - name: frontend
+    build_command: npm run build
+    output_dir: build
