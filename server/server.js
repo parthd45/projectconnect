@@ -24,6 +24,10 @@ const dashboardRoutes = require('./routes/dashboard');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+console.log('🚀 Starting ProjectConnect Backend Server...');
+console.log('📊 Environment:', process.env.NODE_ENV || 'development');
+console.log('🌐 Port:', PORT);
+
 // Middleware
 app.use(helmet()); // Security headers
 app.use(cors({
@@ -179,6 +183,7 @@ app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🌐 API URL: http://localhost:${PORT}`);
+  console.log(`🎯 Status: Backend is LIVE and ready!`);
   
   // Test database connection (don't let it prevent server startup)
   try {
