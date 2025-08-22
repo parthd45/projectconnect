@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Azure App Service Deployment Guide
+# Run this after creating the Azure App Service
+
+echo "🚀 Azure App Service Deployment Guide"
+echo "=================================="
+echo ""
+echo "1. Create Azure App Service:"
+echo "   - Name: projectconnect-api"
+echo "   - Runtime: Node 20 LTS"
+echo "   - OS: Linux"
+echo ""
+echo "2. Get deployment credentials from Azure Portal:"
+echo "   - Go to App Service → Deployment Center"
+echo "   - Choose GitHub Actions"
+echo "   - Copy the Client ID, Tenant ID, and Subscription ID"
+echo ""
+echo "3. Add GitHub Secrets:"
+echo "   - AZUREAPPSERVICE_CLIENTID_NEW"
+echo "   - AZUREAPPSERVICE_TENANTID_NEW" 
+echo "   - AZUREAPPSERVICE_SUBSCRIPTIONID_NEW"
+echo ""
+echo "4. Enable the new workflow:"
+echo "   - The workflow file is ready at:"
+echo "   - .github/workflows/azure-app-service-new.yml"
+echo ""
+echo "5. Test the deployment:"
+echo "   - Push code to trigger deployment"
+echo "   - Check: https://projectconnect-api.azurewebsites.net"
+echo ""
+echo "✅ Frontend URL: https://projectconnect.tech"
+echo "✅ New Backend URL: https://projectconnect-api.azurewebsites.net"
