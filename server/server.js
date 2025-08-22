@@ -42,11 +42,11 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from React build (frontend)
-if (process.env.NODE_ENV === 'production') {
-  // Serve static files from the React app build directory
-  app.use(express.static(path.join(__dirname, 'client')));
-}
+// Remove frontend serving since frontend is deployed separately to Azure Static Web Apps
+// if (process.env.NODE_ENV === 'production') {
+//   // Serve static files from the React app build directory
+//   app.use(express.static(path.join(__dirname, 'client')));
+// }
 
 // Session middleware for OAuth
 app.use(session({
@@ -89,19 +89,15 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Root endpoint - serve React app in production, API info in development
+// Root endpoint - API info only (frontend deployed separately)
 app.get('/', (req, res) => {
-  if (process.env.NODE_ENV === 'production') {
-    // Serve React app
-    res.sendFile(path.join(__dirname, 'client', 'index.html'));
-  } else {
-    // Development API info
-    res.json({ 
-      message: 'ProjectConnect API',
-      version: '1.0.0',
-      status: 'running'
-    });
-  }
+  // Backend API info
+  res.json({ 
+    message: 'ProjectConnect API',
+    version: '1.0.0',
+    status: 'running',
+    frontend: 'Deployed separately to Azure Static Web Apps'
+  });
 });
 
 // Database test endpoint
@@ -158,12 +154,12 @@ app.use((req, res) => {
   if (req.path.startsWith('/api')) {
     // API route not found
     res.status(404).json({ message: 'API endpoint not found' });
-  } else if (process.env.NODE_ENV === 'production') {
-    // Serve React app for all other routes (handles React Router)
-    res.sendFile(path.join(__dirname, 'client', 'index.html'));
   } else {
-    // Development fallback
-    res.status(404).json({ message: 'Route not found' });
+    // Non-API route - frontend is deployed separately
+    res.status(404).json({ 
+      message: 'Route not found', 
+      note: 'Frontend is deployed separately to Azure Static Web Apps' 
+    });
   }
 });
 

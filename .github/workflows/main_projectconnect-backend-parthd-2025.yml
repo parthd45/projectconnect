@@ -27,26 +27,12 @@ jobs:
         run: npm cache clean --force
 
       - name: npm install, build, and test
-        env:
-          REACT_APP_API_URL: https://projectconnect-backend-parthd-2025.azurewebsites.net/api
         run: |
-          # Build backend
+          # Build backend only
           cd server
           rm -rf node_modules package-lock.json
           npm install
           npm run build --if-present
-          cd ..
-          
-          # Build frontend
-          cd client  
-          rm -rf node_modules package-lock.json
-          npm install
-          npm run build
-          cd ..
-          
-          # Copy frontend build to server directory
-          cp -r client/build server/client
-          ls -la server/
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
