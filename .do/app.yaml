@@ -4,7 +4,7 @@ services:
 - name: backend
   source_dir: /server
   github:
-    repo: your-github-username/your-repo-name
+    repo: parthd45/projectconnect
     branch: main
   run_command: npm start
   environment_slug: node-js
@@ -14,9 +14,9 @@ services:
   - key: NODE_ENV
     value: production
   - key: DATABASE_URL
-    value: postgresql://postgres:duPZzXJcGyiEUcHdAXatjDdNcpLMLXFq@ballast.proxy.rlwy.net:29786/railway
+    value: your_railway_database_url_here
   - key: JWT_SECRET
-    value: ProjectConnect_Super_Secure_Production_JWT_Secret_Key_2025_Make_It_Very_Long_Random
+    value: your_jwt_secret_here_at_least_32_characters_long
   - key: EMAIL_USER
     value: your_email_here@gmail.com
   - key: EMAIL_PASSWORD
@@ -41,7 +41,7 @@ services:
 - name: frontend
   source_dir: /client
   github:
-    repo: your-github-username/your-repo-name
+    repo: parthd45/projectconnect
     branch: main
   build_command: npm run build
   environment_slug: node-js
