@@ -27,7 +27,12 @@ const PORT = process.env.PORT || 3001;
 app.use(helmet()); // Security headers
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.CLIENT_URL, 'https://your-frontend-domain.com'] 
+    ? [
+        'https://projectconnect.tech',
+        'https://www.projectconnect.tech',
+        'https://projectconnect-frontend-parthd-2025.azurewebsites.net',
+        process.env.CLIENT_URL
+      ] 
     : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://127.0.0.1:3000', 'http://127.0.0.1:3001', 'http://127.0.0.1:3002'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
