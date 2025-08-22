@@ -4,12 +4,23 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Railway environment detection
+const isRailway = process.env.RAILWAY_ENVIRONMENT_NAME;
+console.log(`🚀 Environment: ${isRailway ? 'Railway' : 'Local'}`);
+console.log(`🌐 Port: ${PORT}`);
+
 console.log('🚀 Starting Minimal ProjectConnect Backend...');
 
 // Basic middleware
 app.use(express.json());
+// CORS configuration for Railway deployment
 app.use(cors({
-  origin: '*',
+  origin: [
+    'https://projectconnect.tech',
+    'https://yellow-river-0686b2500.azurestaticapps.net',
+    'http://localhost:3000',
+    'http://localhost:3001'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -18,9 +29,10 @@ app.use(cors({
 // Health check
 app.get('/', (req, res) => {
   res.json({
-    message: 'ProjectConnect API',
-    version: '1.0.2',
+    message: 'ProjectConnect API - Railway Deployment',
+    version: '1.0.3',
     status: 'running',
+    environment: process.env.RAILWAY_ENVIRONMENT_NAME || 'local',
     timestamp: new Date().toISOString()
   });
 });
