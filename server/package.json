@@ -2,9 +2,9 @@
   "name": "projectconnect-server",
   "version": "1.0.0",
   "description": "Backend server for ProjectConnect - A platform for students to find project collaborators",
-  "main": "server.js",
+  "main": "minimal-server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node minimal-server.js",
     "dev": "nodemon server.js",
     "test": "jest",
     "build": "npm install",
