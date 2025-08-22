@@ -1,17 +1,45 @@
 {
-  "name": "projectconnect-backend-v2",
-  "version": "2.0.0",
-  "description": "ProjectConnect Backend API v2 - Clean Azure Deployment",
+  "name": "projectconnect-server",
+  "version": "1.0.0",
+  "description": "Backend server for ProjectConnect - A platform for students to find project collaborators",
   "main": "app-v2.js",
   "scripts": {
     "start": "node app-v2.js",
-    "dev": "node app-v2.js"
+    "dev": "node app-v2.js",
+    "test": "echo 'No tests specified' && exit 0"
   },
+  "keywords": [
+    "express",
+    "postgresql",
+    "collaboration",
+    "students"
+  ],
+  "author": "ProjectConnect Team",
+  "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5"
+    "axios": "^1.11.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "express-session": "^1.18.2",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^7.0.5",
+    "passport": "^0.7.0",
+    "passport-github2": "^0.1.12",
+    "passport-google-oauth20": "^2.0.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.10",
+    "supertest": "^6.3.3"
   },
   "engines": {
-    "node": ">=18.0.0"
-  }
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "type": "commonjs"
 }
