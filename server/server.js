@@ -45,7 +45,7 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files from React build (frontend)
 if (process.env.NODE_ENV === 'production') {
   // Serve static files from the React app build directory
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.use(express.static(path.join(__dirname, 'client')));
 }
 
 // Session middleware for OAuth
@@ -93,7 +93,7 @@ app.get('/health', (req, res) => {
 app.get('/', (req, res) => {
   if (process.env.NODE_ENV === 'production') {
     // Serve React app
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'client', 'index.html'));
   } else {
     // Development API info
     res.json({ 
@@ -160,7 +160,7 @@ app.use((req, res) => {
     res.status(404).json({ message: 'API endpoint not found' });
   } else if (process.env.NODE_ENV === 'production') {
     // Serve React app for all other routes (handles React Router)
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'client', 'index.html'));
   } else {
     // Development fallback
     res.status(404).json({ message: 'Route not found' });

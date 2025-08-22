@@ -43,14 +43,16 @@ jobs:
           npm install
           npm run build
           cd ..
+          
+          # Copy frontend build to server directory
+          cp -r client/build server/client
+          ls -la server/
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: |
-            ./server
-            ./client/build
+          path: ./server
 
   deploy:
     runs-on: ubuntu-latest
