@@ -6,8 +6,13 @@ const PORT = process.env.PORT || 3001;
 
 // Railway environment detection
 const isRailway = process.env.RAILWAY_ENVIRONMENT_NAME;
+const isProduction = process.env.NODE_ENV === 'production';
+
 console.log(`🚀 Environment: ${isRailway ? 'Railway' : 'Local'}`);
 console.log(`🌐 Port: ${PORT}`);
+console.log(`📦 Production: ${isProduction}`);
+
+console.log('🚀 Starting Minimal ProjectConnect Backend...');
 
 console.log('🚀 Starting Minimal ProjectConnect Backend...');
 
