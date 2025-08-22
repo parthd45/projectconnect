@@ -38,10 +38,26 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend is working!', success: true });
 });
 
+// Error handling
+process.on('uncaughtException', (err) => {
+  console.error('❌ Uncaught Exception:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+  process.exit(1);
+});
+
 // Start server
-app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Minimal Backend running on port ${PORT}`);
   console.log(`✅ Status: HEALTHY and READY`);
+  console.log(`🌐 Server address: http://localhost:${PORT}`);
+});
+
+server.on('error', (err) => {
+  console.error('❌ Server error:', err);
 });
 
 module.exports = app;
