@@ -94,8 +94,9 @@ app.get('/', (req, res) => {
   // Backend API info
   res.json({ 
     message: 'ProjectConnect API',
-    version: '1.0.0',
+    version: '1.0.1',
     status: 'running',
+    timestamp: new Date().toISOString(),
     frontend: 'Deployed separately to Azure Static Web Apps'
   });
 });
