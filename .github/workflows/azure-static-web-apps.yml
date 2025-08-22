@@ -26,8 +26,10 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/client"
-          api_location: "/server"
           output_location: "build"
+        env:
+          REACT_APP_API_URL: https://projectconnect-backend-parthd-2025.azurewebsites.net/api
+          REACT_APP_ENVIRONMENT: production
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
