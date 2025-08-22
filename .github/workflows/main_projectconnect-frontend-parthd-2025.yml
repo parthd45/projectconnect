@@ -26,7 +26,7 @@ jobs:
       - name: npm install and build
         working-directory: ./client
         env:
-          REACT_APP_API_URL: https://api.projectconnect.tech/api
+          REACT_APP_API_URL: https://projectconnect-backend-parthd-2025.azurewebsites.net/api
         run: |
           npm install
           npm run build
@@ -64,5 +64,5 @@ jobs:
           slot-name: 'Production'
           package: .
         env:
-          REACT_APP_API_URL: https://api.projectconnect.tech/api
+          REACT_APP_API_URL: https://projectconnect-backend-parthd-2025.azurewebsites.net/api
           NODE_ENV: production
