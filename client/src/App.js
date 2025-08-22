@@ -19,7 +19,6 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 
 // API service
-import api from './services/api';
 import axios from 'axios';
 
 // Configure axios defaults for backward compatibility

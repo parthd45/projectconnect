@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../App';
 import ProfileCard from '../components/ProfileCard';
@@ -13,11 +13,7 @@ const ProjectDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [showRequestors, setShowRequestors] = useState(false);
 
-  useEffect(() => {
-    fetchProject();
-  }, [id]);
-
-  const fetchProject = async () => {
+  const fetchProject = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.get(`/projects/${id}`);
@@ -28,7 +24,11 @@ const ProjectDetailPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchProject();
+  }, [fetchProject]);
 
   const handleInterested = async () => {
     if (!user) {
