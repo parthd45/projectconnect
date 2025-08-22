@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const session = require('express-session');
 const passport = require('./config/passport');
+const path = require('path');
 require('dotenv').config();
 
 // Set timezone to Asia/Kolkata
@@ -40,6 +41,12 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from React build (frontend)
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the React app build directory
+  app.use(express.static(path.join(__dirname, '../client/build')));
+}
 
 // Session middleware for OAuth
 app.use(session({
@@ -82,13 +89,19 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Root endpoint
+// Root endpoint - serve React app in production, API info in development
 app.get('/', (req, res) => {
-  res.json({ 
-    message: 'ProjectConnect API',
-    version: '1.0.0',
-    status: 'running'
-  });
+  if (process.env.NODE_ENV === 'production') {
+    // Serve React app
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  } else {
+    // Development API info
+    res.json({ 
+      message: 'ProjectConnect API',
+      version: '1.0.0',
+      status: 'running'
+    });
+  }
 });
 
 // Database test endpoint
@@ -140,9 +153,18 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler
+// 404 handler - serve React app for non-API routes, API error for /api routes
 app.use((req, res) => {
-  res.status(404).json({ message: 'API endpoint not found' });
+  if (req.path.startsWith('/api')) {
+    // API route not found
+    res.status(404).json({ message: 'API endpoint not found' });
+  } else if (process.env.NODE_ENV === 'production') {
+    // Serve React app for all other routes (handles React Router)
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  } else {
+    // Development fallback
+    res.status(404).json({ message: 'Route not found' });
+  }
 });
 
 // Handle unhandled promise rejections
