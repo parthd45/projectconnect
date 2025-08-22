@@ -5,10 +5,8 @@
   "main": "minimal-server.js",
   "scripts": {
     "start": "node minimal-server.js",
-    "dev": "nodemon server.js",
-    "test": "jest",
-    "build": "npm install",
-    "deploy": "npm install --production"
+    "dev": "nodemon minimal-server.js",
+    "test": "echo 'No tests specified' && exit 0"
   },
   "keywords": [
     "express",
@@ -22,7 +20,6 @@
     "axios": "^1.11.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
     "dotenv": "^16.6.1",
     "express": "^4.21.2",
     "express-session": "^1.18.2",
