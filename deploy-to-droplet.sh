@@ -27,17 +27,17 @@ npm install --production
 # Create production environment file
 cat > .env << EOL
 DATABASE_URL=postgresql://postgres:duPZzXJcGyiEUcHdAXatjDdNcpLMLXFq@ballast.proxy.rlwy.net:29786/railway
-JWT_SECRET=ProjectConnect_Super_Secure_Production_JWT_Secret_Key_2025_Make_It_Very_Long_Random
+JWT_SECRET=your_jwt_secret_here_32_chars_minimum
 NODE_ENV=production
 PORT=3001
 CLIENT_URL=https://your-domain.com
-EMAIL_USER=projectconnectsupporrt@gmail.com
-EMAIL_PASSWORD=htjo qbcs adcc arrd
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASSWORD=your_email_app_password
 GOOGLE_CLIENT_ID=your_google_client_id_here
 GOOGLE_CLIENT_SECRET=your_google_client_secret_here
 GITHUB_CLIENT_ID=your_github_client_id_here
 GITHUB_CLIENT_SECRET=your_github_client_secret_here
-SESSION_SECRET=ProjectConnect_OAuth_Session_Secret_Production_2025_Very_Secure_Random_String
+SESSION_SECRET=your_session_secret_here_32_chars_minimum
 EOL
 
 # Start backend with PM2
