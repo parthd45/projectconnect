@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 const ModernSignupPage = () => {
-  const { login } = useContext(AuthContext);
+  const { register } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
@@ -90,30 +90,16 @@ const ModernSignupPage = () => {
     }
 
     try {
-      const API_URL = 'https://project-connect-pscbt9fqv-parthd4567-gmailcoms-projects.vercel.app/api';
-      
-      const response = await fetch(`${API_URL}/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password
-        }),
+      const result = await register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        const token = data.data?.token || data.token;
-        const userData = data.data?.user || data.user;
-        localStorage.setItem('token', token);
-        login(userData, token);
+      if (result.success) {
         navigate('/dashboard');
       } else {
-        setError(data.message || 'Signup failed');
+        setError(result.message || 'Signup failed');
       }
     } catch (error) {
       console.error('Signup error:', error);
