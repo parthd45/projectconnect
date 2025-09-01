@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ProjectConnect Authentication Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+        .warning { color: orange; }
+        .info { color: blue; }
+        button { margin: 5px; padding: 10px 15px; }
+        input { margin: 5px; padding: 8px; width: 200px; }
+        .result { margin-top: 10px; padding: 10px; background: #f5f5f5; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 ProjectConnect Authentication Test Suite</h1>
+    <p>Testing all authentication features for: <strong>https://projectconnect.tech</strong></p>
+    
+    <!-- Backend Connectivity Test -->
+    <div class="test-section">
+        <h2>1. Backend Connectivity Test</h2>
+        <button onclick="testBackendHealth()">Test Backend Health</button>
+        <div id="backend-result" class="result"></div>
+    </div>
+
+    <!-- Registration Test -->
+    <div class="test-section">
+        <h2>2. User Registration Test</h2>
+        <input type="text" id="reg-name" placeholder="Full Name" value="Test User">
+        <input type="email" id="reg-email" placeholder="Email" value="">
+        <input type="password" id="reg-password" placeholder="Password" value="TestPass123!">
+        <br>
+        <button onclick="testRegistration()">Test Registration</button>
+        <div id="registration-result" class="result"></div>
+    </div>
+
+    <!-- Login Test -->
+    <div class="test-section">
+        <h2>3. User Login Test</h2>
+        <input type="email" id="login-email" placeholder="Email" value="">
+        <input type="password" id="login-password" placeholder="Password" value="TestPass123!">
+        <br>
+        <button onclick="testLogin()">Test Login</button>
+        <div id="login-result" class="result"></div>
+    </div>
+
+    <!-- OAuth Tests -->
+    <div class="test-section">
+        <h2>4. OAuth Providers Test</h2>
+        <button onclick="testOAuth('google')">Test Google OAuth</button>
+        <button onclick="testOAuth('github')">Test GitHub OAuth</button>
+        <div id="oauth-result" class="result"></div>
+    </div>
+
+    <!-- Dashboard Access Test -->
+    <div class="test-section">
+        <h2>5. Dashboard Access Test</h2>
+        <button onclick="testDashboardAccess()">Test Dashboard Access</button>
+        <div id="dashboard-result" class="result"></div>
+    </div>
+
+    <script>
+        const API_URL = 'https://project-connect-pscbt9fqv-parthd4567-gmailcoms-projects.vercel.app/api';
+        const FRONTEND_URL = 'https://projectconnect.tech';
+        
+        // Generate unique email for testing
+        function generateTestEmail() {
+            return `test${Date.now()}@example.com`;
+        }
+
+        async function testBackendHealth() {
+            const result = document.getElementById('backend-result');
+            result.innerHTML = '<span class="info">Testing backend connectivity...</span>';
+            
+            try {
+                const response = await fetch(`${API_URL}/health`);
+                if (response.status === 401) {
+                    result.innerHTML = '<span class="warning">⚠️ Backend protected by Vercel auth (expected in production)</span>';
+                } else if (response.ok) {
+                    const data = await response.json();
+                    result.innerHTML = `<span class="success">✅ Backend accessible: ${JSON.stringify(data)}</span>`;
+                } else {
+                    result.innerHTML = `<span class="error">❌ Backend error: ${response.status}</span>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Connection error: ${error.message}</span>`;
+            }
+        }
+
+        async function testRegistration() {
+            const result = document.getElementById('registration-result');
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value || generateTestEmail();
+            const password = document.getElementById('reg-password').value;
+            
+            // Update email field with generated email
+            document.getElementById('reg-email').value = email;
+            document.getElementById('login-email').value = email;
+            
+            result.innerHTML = '<span class="info">Testing registration...</span>';
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.innerHTML = `<span class="success">✅ Registration successful! Token: ${data.data?.token || data.token}</span>`;
+                    // Store token for further tests
+                    if (data.data?.token || data.token) {
+                        localStorage.setItem('test-token', data.data?.token || data.token);
+                    }
+                } else {
+                    result.innerHTML = `<span class="error">❌ Registration failed: ${data.message}</span>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Registration error: ${error.message}</span>`;
+            }
+        }
+
+        async function testLogin() {
+            const result = document.getElementById('login-result');
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            result.innerHTML = '<span class="info">Testing login...</span>';
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.innerHTML = `<span class="success">✅ Login successful! Token: ${data.data?.token || data.token}</span>`;
+                    // Store token for dashboard test
+                    if (data.data?.token || data.token) {
+                        localStorage.setItem('test-token', data.data?.token || data.token);
+                    }
+                } else {
+                    result.innerHTML = `<span class="error">❌ Login failed: ${data.message}</span>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Login error: ${error.message}</span>`;
+            }
+        }
+
+        async function testOAuth(provider) {
+            const result = document.getElementById('oauth-result');
+            result.innerHTML = `<span class="info">Testing ${provider} OAuth...</span>`;
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/${provider}`);
+                const data = await response.json();
+                
+                if (data.message) {
+                    result.innerHTML = `<span class="warning">⚠️ ${provider} OAuth: ${data.instructions || data.message}</span>`;
+                } else {
+                    result.innerHTML = `<span class="success">✅ ${provider} OAuth endpoint accessible</span>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ ${provider} OAuth error: ${error.message}</span>`;
+            }
+        }
+
+        async function testDashboardAccess() {
+            const result = document.getElementById('dashboard-result');
+            result.innerHTML = '<span class="info">Testing dashboard access...</span>';
+            
+            try {
+                // Try to access the dashboard page
+                const dashboardUrl = `${FRONTEND_URL}/dashboard`;
+                
+                // Open dashboard in new tab and check if it loads
+                const newWindow = window.open(dashboardUrl, '_blank');
+                
+                result.innerHTML = `<span class="info">📱 Dashboard opened in new tab: <a href="${dashboardUrl}" target="_blank">${dashboardUrl}</a><br>
+                <span class="warning">⚠️ Check the new tab to see if dashboard loads properly after login</span>`;
+                
+                // Close the new window after a few seconds
+                setTimeout(() => {
+                    if (newWindow) {
+                        newWindow.close();
+                    }
+                }, 3000);
+                
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Dashboard access error: ${error.message}</span>`;
+            }
+        }
+
+        // Auto-run backend test on page load
+        window.onload = function() {
+            testBackendHealth();
+        };
+    </script>
+</body>
+</html>
