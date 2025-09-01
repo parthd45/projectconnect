@@ -22,7 +22,10 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import axios from 'axios';
 
 // Configure axios defaults for backward compatibility
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
+const API_URL = process.env.REACT_APP_API_URL || 
+  (process.env.NODE_ENV === 'production' 
+    ? 'https://projectconnect-backend.railway.app/api' 
+    : 'http://localhost:3001/api');
 console.log('API URL being used:', API_URL);
 axios.defaults.baseURL = API_URL;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -48,8 +51,9 @@ function App() {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get('/api/auth/me');
-      setUser(response.data.data.user);
+      const response = await axios.get('/auth/me');
+      const userData = response.data.data?.user || response.data.user;
+      setUser(userData);
     } catch (error) {
       console.error('Token verification failed:', error);
       // Remove invalid token
@@ -63,9 +67,16 @@ function App() {
   const login = async (email, password) => {
     try {
       console.log('Attempting login with:', { email, API_URL });
-      const response = await axios.post('/api/auth/login', { email, password });
+      const response = await axios.post('/auth/login', { email, password });
       console.log('Login response:', response.data);
-      const { token, user: userData } = response.data.data;
+      
+      // Handle different response formats
+      const token = response.data.data?.token || response.data.token;
+      const userData = response.data.data?.user || response.data.user;
+      
+      if (!token) {
+        throw new Error('No token received from server');
+      }
       
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -76,7 +87,7 @@ function App() {
     } catch (error) {
       console.error('Login error:', error);
       console.error('Error response:', error.response?.data);
-      const message = error.response?.data?.message || 'Login failed';
+      const message = error.response?.data?.message || error.message || 'Login failed';
       toast.error(message);
       return { success: false, message };
     }
@@ -84,8 +95,15 @@ function App() {
 
   const register = async (userData) => {
     try {
-      const response = await axios.post('/api/auth/register', userData);
-      const { token, user: newUser } = response.data.data;
+      const response = await axios.post('/auth/register', userData);
+      
+      // Handle different response formats
+      const token = response.data.data?.token || response.data.token;
+      const newUser = response.data.data?.user || response.data.user;
+      
+      if (!token) {
+        throw new Error('No token received from server');
+      }
       
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -94,7 +112,8 @@ function App() {
       toast.success('Registration successful!');
       return { success: true };
     } catch (error) {
-      const message = error.response?.data?.message || 'Registration failed';
+      console.error('Registration error:', error);
+      const message = error.response?.data?.message || error.message || 'Registration failed';
       toast.error(message);
       return { success: false, message };
     }

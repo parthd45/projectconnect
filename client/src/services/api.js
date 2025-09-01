@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 // Get API URL from environment variables
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
+const API_URL = process.env.REACT_APP_API_URL || 
+  (process.env.NODE_ENV === 'production' 
+    ? 'https://projectconnect-backend.railway.app/api' 
+    : 'http://localhost:3001/api');
 
 // Create axios instance with base configuration
 const api = axios.create({
@@ -9,6 +12,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 10000, // 10 second timeout
 });
 
 // Add request interceptor to include auth token
