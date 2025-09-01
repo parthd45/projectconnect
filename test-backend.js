@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 // Test backend endpoints
-const API_URL = 'https://project-connect-amfi3c0j5-parthd4567-gmailcoms-projects.vercel.app/api';
+const API_URL = 'https://project-connect-pscbt9fqv-parthd4567-gmailcoms-projects.vercel.app/api';
 
 async function testBackend() {
     console.log('Testing backend at:', API_URL);
