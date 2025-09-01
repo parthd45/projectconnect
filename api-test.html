@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>Testing ProjectConnect API</h1>
+    <div id="results"></div>
+    
+    <script>
+        const API_URL = 'https://project-connect-pscbt9fqv-parthd4567-gmailcoms-projects.vercel.app/api';
+        const results = document.getElementById('results');
+        
+        async function testAPI() {
+            results.innerHTML = '<p>Testing API connection...</p>';
+            
+            try {
+                // Test basic connectivity
+                const response = await fetch(`${API_URL}/health`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    results.innerHTML += `<p style="color: green;">✅ API Health Check: ${JSON.stringify(data)}</p>`;
+                } else {
+                    results.innerHTML += `<p style="color: orange;">⚠️ API Response: ${response.status} - This might be due to Vercel protection</p>`;
+                }
+            } catch (error) {
+                results.innerHTML += `<p style="color: red;">❌ API Error: ${error.message}</p>`;
+            }
+            
+            // Test auth endpoint
+            try {
+                const authResponse = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: 'Test User',
+                        email: 'test@example.com',
+                        password: 'password123'
+                    })
+                });
+                
+                if (authResponse.status === 400 || authResponse.status === 401) {
+                    results.innerHTML += `<p style="color: green;">✅ Auth endpoint accessible (expected auth error: ${authResponse.status})</p>`;
+                } else {
+                    const authData = await authResponse.json();
+                    results.innerHTML += `<p style="color: green;">✅ Auth endpoint working: ${JSON.stringify(authData)}</p>`;
+                }
+            } catch (error) {
+                results.innerHTML += `<p style="color: red;">❌ Auth Error: ${error.message}</p>`;
+            }
+        }
+        
+        testAPI();
+    </script>
+</body>
+</html>

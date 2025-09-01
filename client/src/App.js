@@ -23,10 +23,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import axios from 'axios';
 
 // Configure axios defaults for backward compatibility
-const API_URL = process.env.REACT_APP_API_URL || 
-  (process.env.NODE_ENV === 'production' 
-    ? 'https://project-connect-pscbt9fqv-parthd4567-gmailcoms-projects.vercel.app/api' 
-    : 'http://localhost:3001/api');
+const API_URL = 'https://project-connect-pscbt9fqv-parthd4567-gmailcoms-projects.vercel.app/api';
 console.log('API URL being used:', API_URL);
 axios.defaults.baseURL = API_URL;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
