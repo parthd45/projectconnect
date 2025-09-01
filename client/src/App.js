@@ -23,7 +23,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import axios from 'axios';
 
 // Configure axios defaults for backward compatibility
-const API_URL = 'https://project-connect-pscbt9fqv-parthd4567-gmailcoms-projects.vercel.app/api';
+const API_URL = 'https://projectconnect-backend-azure-hgfacjfvfnbph0gf.eastasia-01.azurewebsites.net/api';
 console.log('API URL being used:', API_URL);
 axios.defaults.baseURL = API_URL;
 axios.defaults.headers.common['Content-Type'] = 'application/json';

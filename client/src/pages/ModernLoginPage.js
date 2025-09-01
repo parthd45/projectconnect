@@ -145,7 +145,7 @@ const ModernLoginPage = () => {
 
   const handleOAuthLogin = async (provider) => {
     try {
-      const API_URL = 'https://project-connect-pscbt9fqv-parthd4567-gmailcoms-projects.vercel.app/api';
+      const API_URL = 'https://projectconnect-backend-azure-hgfacjfvfnbph0gf.eastasia-01.azurewebsites.net/api';
       
       const response = await fetch(`${API_URL}/auth/${provider}`);
       const data = await response.json();

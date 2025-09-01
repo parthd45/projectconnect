@@ -9,7 +9,7 @@ class StatusService {
     this.lastActivityTime = new Date();
     
     // Set up axios defaults
-    axios.defaults.baseURL = 'https://project-connect-pscbt9fqv-parthd4567-gmailcoms-projects.vercel.app/api';
+    axios.defaults.baseURL = 'https://projectconnect-backend-azure-hgfacjfvfnbph0gf.eastasia-01.azurewebsites.net/api';
     this.setupAxiosInterceptors();
     
     // Track user activity

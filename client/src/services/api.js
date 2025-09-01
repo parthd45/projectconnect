@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Hardcoded API URL to ensure it works
-const API_URL = 'https://project-connect-pscbt9fqv-parthd4567-gmailcoms-projects.vercel.app/api';
+// Updated to use Azure backend
+const API_URL = 'https://projectconnect-backend-azure-hgfacjfvfnbph0gf.eastasia-01.azurewebsites.net/api';
 
 // Create axios instance with base configuration
 const api = axios.create({
