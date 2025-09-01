@@ -92,7 +92,7 @@ const ModernSignupPage = () => {
     try {
       const API_URL = process.env.REACT_APP_API_URL || 
         (process.env.NODE_ENV === 'production' 
-          ? 'https://project-connect-amfi3c0j5-parthd4567-gmailcoms-projects.vercel.app/api' 
+          ? 'https://project-connect-pscbt9fqv-parthd4567-gmailcoms-projects.vercel.app/api' 
           : 'http://localhost:3001/api');
       
       const response = await fetch(`${API_URL}/auth/register`, {
@@ -130,7 +130,7 @@ const ModernSignupPage = () => {
     try {
       const API_URL = process.env.REACT_APP_API_URL || 
         (process.env.NODE_ENV === 'production' 
-          ? 'https://project-connect-amfi3c0j5-parthd4567-gmailcoms-projects.vercel.app/api' 
+          ? 'https://project-connect-pscbt9fqv-parthd4567-gmailcoms-projects.vercel.app/api' 
           : 'http://localhost:3001/api');
       
       const response = await fetch(`${API_URL}/auth/${provider}`);
