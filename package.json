@@ -1,0 +1,12 @@
+{
+  "name": "projectconnect-fullstack",
+  "version": "1.0.0",
+  "description": "ProjectConnect - Full stack deployment on Vercel",
+  "scripts": {
+    "build": "cd client && npm install && npm run build",
+    "start": "cd server && npm start"
+  },
+  "dependencies": {
+    "axios": "^1.11.0"
+  }
+}

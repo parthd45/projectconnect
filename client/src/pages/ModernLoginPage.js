@@ -17,7 +17,6 @@ import {
   MessageCircle,
   Rocket
 } from 'lucide-react';
-import { getBaseURL } from '../services/api';
 
 const ModernLoginPage = () => {
   const { login } = useContext(AuthContext);
@@ -144,8 +143,25 @@ const ModernLoginPage = () => {
     }
   };
 
-  const handleOAuthLogin = (provider) => {
-    window.location.href = `${getBaseURL()}/api/auth/${provider}`;
+  const handleOAuthLogin = async (provider) => {
+    try {
+      const API_URL = process.env.REACT_APP_API_URL || 
+        (process.env.NODE_ENV === 'production' 
+          ? 'https://project-connect-amfi3c0j5-parthd4567-gmailcoms-projects.vercel.app/api' 
+          : 'http://localhost:3001/api');
+      
+      const response = await fetch(`${API_URL}/auth/${provider}`);
+      const data = await response.json();
+      
+      if (data.message) {
+        setError(`${provider.charAt(0).toUpperCase() + provider.slice(1)} OAuth: ${data.instructions}`);
+      } else {
+        // In production with proper OAuth setup, redirect would happen here
+        window.location.href = data.authUrl;
+      }
+    } catch (error) {
+      setError(`${provider.charAt(0).toUpperCase() + provider.slice(1)} sign-in is not available right now. Please use email/password login.`);
+    }
   };
 
   const features = [
