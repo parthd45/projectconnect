@@ -36,7 +36,7 @@ jobs:
           output_location: "build" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env:
-          REACT_APP_API_URL: https://projectconnect-backend-azure-hgfacjfvfnbph0gf.eastasia-01.azurewebsites.net/api
+          REACT_APP_API_URL: https://projectconnect-backend-gof68xlso-parthd4567-gmailcoms-projects.vercel.app
           REACT_APP_ENVIRONMENT: production
 
   close_pull_request_job:
