@@ -9,7 +9,7 @@ class StatusService {
     this.lastActivityTime = new Date();
     
     // Set up axios defaults
-    axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
+    axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'https://project-connect-amfi3c0j5-parthd4567-gmailcoms-projects.vercel.app/api';
     this.setupAxiosInterceptors();
     
     // Track user activity

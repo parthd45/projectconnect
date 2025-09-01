@@ -3,7 +3,7 @@ import axios from 'axios';
 // Get API URL from environment variables
 const API_URL = process.env.REACT_APP_API_URL || 
   (process.env.NODE_ENV === 'production' 
-    ? 'https://projectconnect-backend.railway.app/api' 
+    ? 'https://project-connect-amfi3c0j5-parthd4567-gmailcoms-projects.vercel.app/api' 
     : 'http://localhost:3001/api');
 
 // Create axios instance with base configuration

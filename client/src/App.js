@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 
 // Pages
 import HomePage from './pages/HomePage';
+import TestPage from './pages/TestPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ProfilePage from './pages/ProfilePage';
@@ -24,7 +25,7 @@ import axios from 'axios';
 // Configure axios defaults for backward compatibility
 const API_URL = process.env.REACT_APP_API_URL || 
   (process.env.NODE_ENV === 'production' 
-    ? 'https://projectconnect-backend.railway.app/api' 
+    ? 'https://project-connect-amfi3c0j5-parthd4567-gmailcoms-projects.vercel.app/api' 
     : 'http://localhost:3001/api');
 console.log('API URL being used:', API_URL);
 axios.defaults.baseURL = API_URL;
@@ -39,27 +40,33 @@ function App() {
 
   // Check for existing token on app load
   useEffect(() => {
+    console.log('App mounting, checking for token...');
     const token = localStorage.getItem('token');
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       // Verify token and get user data
       fetchProfile();
     } else {
+      console.log('No token found, setting loading to false');
       setLoading(false);
     }
   }, []);
 
   const fetchProfile = async () => {
     try {
+      console.log('Fetching profile...');
       const response = await axios.get('/auth/me');
+      console.log('Profile response:', response.data);
       const userData = response.data.data?.user || response.data.user;
       setUser(userData);
+      console.log('User set:', userData);
     } catch (error) {
       console.error('Token verification failed:', error);
       // Remove invalid token
       localStorage.removeItem('token');
       delete axios.defaults.headers.common['Authorization'];
     } finally {
+      console.log('Setting loading to false');
       setLoading(false);
     }
   };
@@ -145,6 +152,7 @@ function App() {
         <main className="px-4 py-8">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/test" element={<TestPage />} />
             <Route 
               path="/projects" 
               element={<ProjectsPage />} 
